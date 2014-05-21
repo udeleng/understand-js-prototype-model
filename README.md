@@ -1,7 +1,7 @@
 Understanding the JS Prototype Model
 =============================
 
-Feel free to help make this project better. If you see any errors or incorrect statements, 
+Feel free to help make this project better. If you see any errors or incorrect statements, let me know or issue a pull request.
 
 This simple project aims to help advance the understanding of the relationships between Function, function, Object, object, *.prototype*, and [[prototype]]. I have been reading [Kyle Simpson](https://github.com/getify/You-Dont-Know-JS) incrediblly insightful books about scope, closure, this, and prototype. However, even after reading those books, there were still a few nagging questions. 
 
