@@ -24,3 +24,5 @@ All functions are instances of Function, including the Object function. And the 
 All objects (function or otherwise) are instances of Object because their prototype chain leads to the object referenced by Object.prototype.
 
 The last object in the prototype chain is referenced by Object.prototype and its [[prototype]] property is set to null.
+
+A property defined directly on a function object, for example Object.encrypt = function encrypt() {}, would not be discovered by a subtype using the reference this.encrypt(), because the prototype chain ends in Object.prototype, which is different than the Object function itself. 
