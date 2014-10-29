@@ -11,18 +11,35 @@ You may have heard the statement that in JavaScript, everything is an object. Bu
 
 *In the diagram, arrows emerge either directly from [[prototype]] or the .prototype property and arrive at object boundaries, thus pointing directly at the object and not at something inside that object.*
 
-## Observations
+In JavaScript, you can add a property/value pair to an object. You can also add a property/value to a function: myFunction.myProperty = myValue. So, Function, on its own, without being instantiated, is an object. But there are differences.
 
-The first question, whether a function is an object, can be answered with the definition of an object in JavaScript that it is a standalone thing that can hold properties. As such, functions are objects since we can attach proprties directly to them that can be accessed or modified at a later time.
+#####Concept 1: prototype object
 
-All object have a [[prototype]] property which can be accessed with Object.getPrototypeOf(). The [[prototype]] property is the basis for the prototypal lookup. Prototypal lookup occurs when trying to access a property (value or function) on an object. In the diagram, follow the arrow from your current object's [[prototype]] property to each object's [[prototype]] property in sequence. Otherwise lexical scoping rules applies. 
+A prototype is typically a plain JS object, such as when you create one using literal notation: var a = {}. This is unlike a Function object, which is created using the function keyword. Creating a plain object from a function requires the use of the "new" keyword: var f = new Foo(). Prototypes can be linked together which creates a prototype chain. This chain is the basis for the prototypal lookup. 
 
-At runtime, function objects are given a *.prototype* property. The *.prototype* property is only used to initialize the [[prototype]] property when creating a new object. It is also used when comparing object using the instanceof operator. The instanceof operator checks if the object referenced by the right operand's (which must be a function object) .prototype property exists anywhere in the prototype chain of the object referenced by the left operand. In the diagram, you can see that myFoo is an instance of Foo, but it's not an instance of Function. On the other hand, Foo is an instance of Function. Function and Object are also instances of each other.
+##### Concept 2: [[prototype]] property
 
-All functions are instances of Function, including the Object function. And the Function function is an instance of itself. 
+A plain object has an internal property that references its prototype, which I'll refer to as [[prototype]]. When the JS engine tries to resolve a property/method that requires a protoypal lookup (i.e. this.myMethod()), it uses the [[prototype]] property to move up the chain of objects, until it reached the very top of the chain (if not found, you'll get either undefined or TypeError). Typically, the top of the prototype chain is the object referenced by Object.prototype (see Concept 3 for explanation of prototype property). When I refer to an object's prototype, I am referring to the value of object.[[prototype]]
 
-All objects (function or otherwise) are instances of Object because their prototype chain leads to the object referenced by Object.prototype.
+##### Concept 3: prototype property
 
-The last object in the prototype chain is referenced by Object.prototype and its [[prototype]] property is set to null.
+A function object has prototype property (different than the [[prototype]] property). The property references a plain object that will become the prototype of yet another object if the function is invoked using the "new" keyword. A plain object does not typically have prototype property, as the property's purpose it to create a prototype chain during construction, and a plain object is already constructed. 
 
-A property defined directly on a function object, for example Object.encrypt = function encrypt() {}, would not be discovered by a subtype using the reference this.encrypt(), because the prototype chain ends in Object.prototype, which is different than the Object function itself. 
+##### Creating a prototype chain
+
+1. Using the "new" keyword - When you invoke a function using "new", the engine creates a plain object in memory, links it to the plain object referenced by its prototype property, and returns it from the constructor, which is then assigned to some variable.
+
+2. Using Object.create(arg) - The method creates a plain object and links its [[prototype]] to the specified argument. 
+
+  a. Object.create(myFunction.prototype): creates an object and links its prototype ([[prototype]]) to myFunction.prototype. Here you get two plain objects linked together, the parent of which is myFunction.prototype.
+
+  b. Object.create(null): creates an object but does not link to Object.prototype and thus no properties are inherited. This is a good way to create a map that you can iterate through without running into any inherited method, since iterating on properties would include any inherited iterable properties.
+  
+  c. Object.create(myFunction): the plain object inherits directly from a function. If you've defined methods on your function's prototype property, those methods would not be available because your new object prototype chain follows the function's [[prototype]] property.
+
+##### Discovering relationships
+
+  You can use Object.getPrototypeOf(arg) to find the value referenced obj arg.[[prototype]].
+  
+  You can use X instanceof Y where X can be any object and Y must be a function because the engine looks for the prototype property of Y to determine if you can get from the object X to the object referenced by Y.prototype using the prototype chain.
+
