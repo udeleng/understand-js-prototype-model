@@ -39,7 +39,7 @@ A function object has prototype property (different than the [[prototype]] prope
 
 ##### Discovering relationships
 
-  You can use Object.getPrototypeOf(arg) to find the value referenced obj arg.[[prototype]].
+  You can use Object.getPrototypeOf(arg) to find the value referenced by arg.[[prototype]].
   
   You can use obj.isPrototypeOf(anotherObj) to determine if anotherObject.[[prototype]] references obj.
   
