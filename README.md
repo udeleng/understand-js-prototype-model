@@ -41,5 +41,7 @@ A function object has prototype property (different than the [[prototype]] prope
 
   You can use Object.getPrototypeOf(arg) to find the value referenced obj arg.[[prototype]].
   
+  You can use obj.isPrototypeOf(anotherObj) to determine if anotherObject.[[prototype]] references obj.
+  
   You can use X instanceof Y where X can be any object and Y must be a function because the engine looks for the prototype property of Y to determine if you can get from the object X to the object referenced by Y.prototype using the prototype chain.
 
