@@ -19,7 +19,7 @@ A prototype is typically a plain JS object, such as when you create one using li
 
 ##### Concept 2: [[prototype]] property
 
-A plain object has an internal property that references its prototype, which I'll refer to as [[prototype]]. When the JS engine tries to resolve a property/method that requires a protoypal lookup (i.e. this.myMethod()), it uses the [[prototype]] property to move up the chain of objects, until it reached the very top of the chain (if not found, you'll get either undefined or TypeError). Typically, the top of the prototype chain is the object referenced by Object.prototype (see Concept 3 for explanation of prototype property). When I refer to an object's prototype, I am referring to the value of object.[[prototype]]
+All objects have an internal property that references its prototype, which I'll refer to as [[prototype]]. When the JS engine tries to resolve a property/method that requires a protoypal lookup (i.e. this.myMethod()), it uses the [[prototype]] property to move up the chain of objects, until it reached the very top of the chain (if not found, you'll get either undefined or TypeError). Typically, the top of the prototype chain is the object referenced by Object.prototype (see Concept 3 for explanation of prototype property). When I refer to an object's prototype, I am referring to the value of object.[[prototype]]
 
 ##### Concept 3: prototype property
 
